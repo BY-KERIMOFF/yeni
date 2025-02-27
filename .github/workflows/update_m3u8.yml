@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 0 * * *'  # Hər gün 12:00-da yeniləmə (cron vaxtı)
+    - cron: '*/30 * * * *'  # Hər 30 dəqiqədə bir yeniləmə (cron vaxtı)
 
 jobs:
   update-playlist:
