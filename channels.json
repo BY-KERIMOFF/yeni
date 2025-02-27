@@ -1,4 +1,7 @@
-{
+import json
+
+# JSON məlumatını yükləyirik
+data = {
     "output": {
         "folder": "streams",
         "bestFolder": "best",
@@ -52,3 +55,18 @@
         }
     ]
 }
+
+# M3U faylını yazırıq
+M3U_FILE = "playlist.m3u"
+
+# M3U faylını yazan funksiya
+def write_m3u(data):
+    with open(M3U_FILE, "w", encoding="utf-8") as m3u:
+        m3u.write("#EXTM3U\n")
+        for channel in data["channels"]:
+            m3u.write(f"#EXTINF:-1, {channel['name']}\n")
+            m3u.write(f"{channel['url']}\n")
+    print(f"✅ M3U playlist yeniləndi: {M3U_FILE}")
+
+# M3U faylını yazırıq
+write_m3u(data)
