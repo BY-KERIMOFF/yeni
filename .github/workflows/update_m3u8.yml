@@ -18,14 +18,22 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-
       - name: Generate M3U file
         run: |
           python json_to_m3u.py
 
-      - name: Check for changes
+      - name: Check if playlist.m3u exists
         run: |
-          git diff --exit-code || (git add playlist.m3u && git commit -m "Auto-update M3U playlist" && git push)
+          if [ -f "playlist.m3u" ]; then
+            echo "✅ playlist.m3u yaradıldı!"
+          else
+            echo "❌ playlist.m3u tapılmadı!" && exit 1
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add playlist.m3u
+          git commit -m "Auto-update M3U playlist" || echo "No changes to commit"
+          git push
