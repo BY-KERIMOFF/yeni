@@ -1,0 +1,29 @@
+#EXTM3U
+
+#EXTINF:-1, showturk
+https://www.showturk.com.tr/canli-yayin/showturk
+
+#EXTINF:-1, showmax
+https://www.showmax.com.tr/canliyayin
+
+#EXTINF:-1, showtv
+https://www.showtv.com.tr/canli-yayin
+
+#EXTINF:-1, cnnturk
+https://www.youtube.com/@cnnturk/live
+
+#EXTINF:-1, kanald
+https://www.kanald.com.tr/canli-yayin
+
+#EXTINF:-1, tv8
+https://www.tv8.com.tr/canli-yayin
+
+#EXTINF:-1, nowtv
+https://www.nowtv.com.tr/canli-yayin
+
+#EXTINF:-1, eurostartv
+https://www.eurostartv.com.tr/canli-izle
+
+#EXTINF:-1, yaban
+https://www.yabantv.com/broadcast
+
