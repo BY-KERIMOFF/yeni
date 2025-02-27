@@ -2,33 +2,32 @@ name: Update M3U Playlist
 
 on:
   schedule:
-    - cron: '*/30 * * * *'  # Hər 30 dəqiqədən bir yeniləmə
-  workflow_dispatch:
+    - cron: "*/15 * * * *"  # Hər 15 dəqiqədən bir işləsin
+  workflow_dispatch:  # Manual başlatmaq üçün
 
 jobs:
-  update-m3u:
+  update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Repo-nu klonla
         uses: actions/checkout@v3
-        with:
-          persist-credentials: false
 
-      - name: Set up Python
+      - name: Python-u quraşdır
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
-      - name: Generate M3U file
-        run: python json_to_m3u.py
+      - name: Lazım olan kitabxanaları quraşdır
+        run: pip install requests
 
-      - name: Commit and push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: M3U faylını yenilə
+        run: python update_m3u.py
+
+      - name: Dəyişiklikləri GitHub-a göndər
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add playlist.m3u
-          git commit -m "Auto-update M3U playlist" || echo "No changes to commit"
-          git push https://x-access-token:${GITHUB_TOKEN}@github.com/by-kerimoff/yeni.git HEAD:main
+          git commit -m "🔄 M3U playlist avtomatik yeniləndi"
+          git push
