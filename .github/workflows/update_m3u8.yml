@@ -33,7 +33,7 @@ jobs:
         channels = [
             {"name": "Show TV", "url": "https://www.showtv.com.tr/canli-yayin", "slug": "showtv"},
             {"name": "kanald", "url": "https://www.kanald.com.tr/canli-yayin", "slug": "kanald"},
-            {"name": "nowtv", "url": "https://www.nowtv.com.tr/canli-yayin", "slug": "nowtv"},
+            {"name": "showmax", "url": "https://www.showmax.com.tr/canliyayin", "slug": "showmax},
         ]
 
         M3U_FILE = "playlist.m3u"
