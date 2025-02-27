@@ -22,18 +22,13 @@ jobs:
         run: |
           python json_to_m3u.py
 
-      - name: Check if playlist.m3u exists
-        run: |
-          if [ -f "playlist.m3u" ]; then
-            echo "✅ playlist.m3u yaradıldı!"
-          else
-            echo "❌ playlist.m3u tapılmadı!" && exit 1
-          fi
-
       - name: Commit and push changes
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          git remote set-url origin https://x-access-token:${GH_PAT}@github.com/by-kerimoff/yeni.git
           git add playlist.m3u
           git commit -m "Auto-update M3U playlist" || echo "No changes to commit"
-          git push
+          git push origin main
