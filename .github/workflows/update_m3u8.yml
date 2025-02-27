@@ -29,13 +29,12 @@ jobs:
         python - <<EOF
         import requests
         import re
+        import json
 
-        channels = [
-            {"name": "Show TV", "url": "https://www.showtv.com.tr/canli-yayin", "slug": "showtv"},
-            {"name": "kanald", "url": "https://www.kanald.com.tr/canli-yayin", "slug": "kanald"},
-            {"name": "showmax", "url": "https://www.showmax.com.tr/canliyayin", "slug": "showmax},
-        ]
+        with open("channels.json", "r", encoding="utf-8") as f:
+            data = json.load(f)
 
+        channels = data["channels"]
         M3U_FILE = "playlist.m3u"
 
         def get_new_m3u8_link(channel_url):
@@ -69,10 +68,6 @@ jobs:
 
         print(f"✅ M3U playlist yeniləndi: {M3U_FILE}")
         EOF
-
-    - name: Check if playlist file changed
-      run: |
-        git diff --exit-code playlist.m3u || echo "File has changes"
 
     - name: Commit changes if there are any
       run: |
