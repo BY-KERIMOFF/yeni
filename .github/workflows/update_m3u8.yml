@@ -1,28 +1,31 @@
-name: Update M3U8 URL
+name: Update M3U Playlist
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Hər saatda çalışacaq
+    - cron: '*/30 * * * *'  # Hər 30 dəqiqədən bir yeniləmə
   workflow_dispatch:
 
 jobs:
-  update-m3u8:
+  update-m3u:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: '3.x'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
 
-      - name: Run the script
+      - name: Generate M3U file
         run: |
-          python your_script.py
+          python json_to_m3u.py
+
+      - name: Check for changes
+        run: |
+          git diff --exit-code || (git add playlist.m3u && git commit -m "Auto-update M3U playlist" && git push)
