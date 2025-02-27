@@ -1,16 +1,19 @@
 {
-    "channels": [
-        {
-            "name": "Show TV",
-            "url": "https://www.showtv.com.tr/canli-yayin"
-        },
-        {
-            "name": "CNNTürk",
-            "url": "https://www.youtube.com/@cnnturk/live"
-        },
-        {
-            "name": "Kanal D",
-            "url": "https://www.kanald.com.tr/canli-yayin"
-        }
-    ]
+  "channels": [
+    {
+      "name": "Show TV",
+      "url": "https://www.showtv.com.tr/canli-yayin",
+      "slug": "showtv"
+    },
+    {
+      "name": "CNN Türk",
+      "url": "https://www.youtube.com/@cnnturk/live",
+      "slug": "cnnturk"
+    },
+    {
+      "name": "TV8",
+      "url": "https://www.tv8.com.tr/canli-yayin",
+      "slug": "tv8"
+    }
+  ]
 }
