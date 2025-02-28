@@ -34,36 +34,6 @@
       "name": "Star TV",
       "url": "https://www.startv.com.tr/canli-yayin",
       "slug": "startv"
-    },
-    {
-      "name": "A Haber",
-      "url": "https://www.ahaber.com.tr/canli-yayin",
-      "slug": "ahaber"
-    },
-    {
-      "name": "Haber Global",
-      "url": "https://www.haberglobal.com.tr/canli-yayin",
-      "slug": "haberglobal"
-    },
-    {
-      "name": "Fox TV",
-      "url": "https://www.foxtv.com.tr/canli-yayin",
-      "slug": "foxtv"
-    },
-    {
-      "name": "Beyaz TV",
-      "url": "https://www.beyaztv.com.tr/canli-yayin",
-      "slug": "beyaztv"
-    },
-    {
-      "name": "Kanal 7",
-      "url": "https://www.kanal7.com.tr/canli-yayin",
-      "slug": "kanal7"
-    },
-    {
-      "name": "TRT1",
-      "url": "https://www.trt1.com.tr/canli-yayin",
-      "slug": "trt1"
     }
   ]
 }
