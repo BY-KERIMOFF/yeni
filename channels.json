@@ -3,7 +3,7 @@
     {
       "name": "kanal d",
       "url": "https://www.kanald.com.tr/canli-yayin",
-      "slug": "kanald"
+      "slug": "showtv"
     },
     {
       "name": "CNN Türk",
@@ -64,131 +64,6 @@
       "name": "TRT1",
       "url": "https://www.trt1.com.tr/canli-yayin",
       "slug": "trt1"
-    },
-    {
-      "name": "TRT2",
-      "url": "https://www.trt2.com.tr/canli-yayin",
-      "slug": "trt2"
-    },
-    {
-      "name": "TRT Çocuk",
-      "url": "https://www.trtcocuk.com.tr/canli-yayin",
-      "slug": "trtcocuk"
-    },
-    {
-      "name": "TRT Spor",
-      "url": "https://www.trtspor.com.tr/canli-yayin",
-      "slug": "trtspor"
-    },
-    {
-      "name": "Kanal 24",
-      "url": "https://www.kanal24.com.tr/canli-yayin",
-      "slug": "kanal24"
-    },
-    {
-      "name": "Ülke TV",
-      "url": "https://www.ulketv.com.tr/canli-yayin",
-      "slug": "ulketv"
-    },
-    {
-      "name": "Çay TV",
-      "url": "https://www.caytv.com.tr/canli-yayin",
-      "slug": "caytv"
-    },
-    {
-      "name": "TRT 3",
-      "url": "https://www.trt3.com.tr/canli-yayin",
-      "slug": "trt3"
-    },
-    {
-      "name": "Habertürk",
-      "url": "https://www.haberturk.com/canli-yayin",
-      "slug": "haberturk"
-    },
-    {
-      "name": "Kanal A",
-      "url": "https://www.kanala.com.tr/canli-yayin",
-      "slug": "kanala"
-    },
-    {
-      "name": "İhlas Haber Ajansı",
-      "url": "https://www.iha.com.tr/canli-yayin",
-      "slug": "iha"
-    },
-    {
-      "name": "Kanal B",
-      "url": "https://www.kanalb.com.tr/canli-yayin",
-      "slug": "kanalb"
-    },
-    {
-      "name": "Sinevizyon",
-      "url": "https://www.sinevizyon.com.tr/canli-yayin",
-      "slug": "sinevizyon"
-    },
-    {
-      "name": "Medyascope",
-      "url": "https://www.medyascope.tv/canli-yayin",
-      "slug": "medyascope"
-    },
-    {
-      "name": "SkyTürk",
-      "url": "https://www.skyturk.com.tr/canli-yayin",
-      "slug": "skyturk"
-    },
-    {
-      "name": "TRT Arapça",
-      "url": "https://www.trtarabic.com/canli-yayin",
-      "slug": "trtarabic"
-    },
-    {
-      "name": "Kanal T",
-      "url": "https://www.kanalt.com.tr/canli-yayin",
-      "slug": "kanalt"
-    },
-    {
-      "name": "TV Net",
-      "url": "https://www.tvnet.com.tr/canli-yayin",
-      "slug": "tvnet"
-    },
-    {
-      "name": "TV 100",
-      "url": "https://www.tv100.com.tr/canli-yayin",
-      "slug": "tv100"
-    },
-    {
-      "name": "D Smart",
-      "url": "https://www.dsmart.com.tr/canli-yayin",
-      "slug": "dsmart"
-    },
-    {
-      "name": "Türkmax",
-      "url": "https://www.turkmax.com.tr/canli-yayin",
-      "slug": "turkmax"
-    },
-    {
-      "name": "TV8.5",
-      "url": "https://www.tv85.com.tr/canli-yayin",
-      "slug": "tv85"
-    },
-    {
-      "name": "Trt 6",
-      "url": "https://www.trt6.com.tr/canli-yayin",
-      "slug": "trt6"
-    },
-    {
-      "name": "Atv",
-      "url": "https://www.atv.com.tr/canli-yayin",
-      "slug": "atv"
-    },
-    {
-      "name": "Tivibu",
-      "url": "https://www.tivibu.com.tr/canli-yayin",
-      "slug": "tivibu"
-    },
-    {
-      "name": "Turkish Cinema",
-      "url": "https://www.turkishcinema.com.tr/canli-yayin",
-      "slug": "turkishcinema"
     }
   ]
 }
