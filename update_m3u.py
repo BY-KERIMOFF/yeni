@@ -1,49 +1,37 @@
-import requests
-import re
+import json
+import subprocess
 
-# Kanalların URL-ləri
-CHANNELS = [
-    {"name": "Show TV", "url": "https://www.showtv.com.tr/canli-yayin"},
-    {"name": "CNNTürk", "url": "https://www.youtube.com/@cnnturk/live"},
-    # Burada əlavə etmək istədiyiniz kanalları daxil edin
-]
+json_path = "channels.json"
 
-# M3U faylının adı
-M3U_FILE = "playlist.m3u"
+try:
+    with open(json_path, "r", encoding="utf-8") as f:
+        data = json.load(f)
 
-# Yeni tokenli m3u8 linkini tapmaq üçün funksiya
-def get_new_m3u8_link(channel_url):
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36"
-    }
-    
-    response = requests.get(channel_url, headers=headers)
-    
-    if response.status_code == 200:
-        match = re.search(r'https://[^"]+\.m3u8\?[^"]+', response.text)
-        if match:
-            return match.group(0)
-        else:
-            print(f"❌ Yeni m3u8 link tapılmadı: {channel_url}")
-            return None
-    else:
-        print(f"❌ Xəta kodu: {response.status_code} - {channel_url}")
-        return None
+    for channel in data["channels"]:
+        page_url = channel["url"]
+        print(f"[🔍] Kanal: {channel['name']} - Yoxlanır...")
 
-# Yeni M3U faylını yaradacağıq
-with open(M3U_FILE, "w", encoding="utf-8") as m3u:
-    m3u.write("#EXTM3U\n")
-    
-    # Hər kanal üçün linki tapıb M3U faylını əlavə edirik
-    for channel in CHANNELS:
-        print(f"❗ Kanal: {channel['name']} - URL: {channel['url']}")
-        new_m3u8_link = get_new_m3u8_link(channel["url"])
+        try:
+            result = subprocess.run(
+                ["yt-dlp", "-g", page_url],
+                capture_output=True,
+                text=True,
+                timeout=15
+            )
+            stream_url = result.stdout.strip()
+            if stream_url.startswith("http") and ".m3u8" in stream_url:
+                channel["url"] = stream_url
+                print(f"✅ Tapıldı: {stream_url}")
+            else:
+                print(f"⚠️ Tapılmadı və ya keçərsiz: {page_url}")
 
-        if new_m3u8_link:
-            m3u.write(f"#EXTINF:-1, {channel['name']}\n")
-            m3u.write(f"{new_m3u8_link}\n")
-            print(f"✅ Kanal {channel['name']} üçün M3U link əlavə olundu.")
-        else:
-            print(f"❌ Kanal {channel['name']} üçün M3U link əlavə olunmadı.")
+        except Exception as e:
+            print(f"❌ Xəta: {e}")
 
-print(f"✅ M3U playlist yeniləndi: {M3U_FILE}")
+    with open(json_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+
+    print("\n📁 JSON faylı yeniləndi: channels.json")
+
+except Exception as e:
+    print(f"❌ Baş xəta: {e}")
