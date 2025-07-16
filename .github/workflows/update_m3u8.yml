@@ -25,11 +25,11 @@ jobs:
         pip install -r yeni/requirements.txt
 
     - name: Extract m3u8 links from web
-      run: python extract_m3u8.py
+      run: python bykerimoff_python1.py
       working-directory: yeni
 
     - name: Generate playlist.m3u
-      run: python fetch_m3u8.py
+      run: python bykerimoff_python2.py
       working-directory: yeni
 
     - name: Configure Git
