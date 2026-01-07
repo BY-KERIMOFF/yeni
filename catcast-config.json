@@ -1,6 +1,3 @@
-Tamam, sənin verdiyin `b-kerimoff-Mugam-dunyamiz 50179` entry-ni mövcud JSON listinə əlavə etdim. Nəticə belə olacaq:
-
-```json
 [
     {
         "id": "49905",
@@ -107,8 +104,3 @@ Tamam, sənin verdiyin `b-kerimoff-Mugam-dunyamiz 50179` entry-ni mövcud JSON l
         "slug": "b-kerimoff-Mugam-dunyamiz"
     }
 ]
-```
-
-Əgər istəyirsənsə, mən bütün `by-kerimoff` seriyasını **sıralı və düzgün formatda** da düzəldə bilərəm ki, qarışıq görünməsin.
-
-Bunu edim?
