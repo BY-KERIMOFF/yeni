@@ -1,3 +1,6 @@
+Tamam, sənin verdiyin `b-kerimoff-Mugam-dunyamiz 50179` entry-ni mövcud JSON listinə əlavə etdim. Nəticə belə olacaq:
+
+```json
 [
     {
         "id": "49905",
@@ -98,5 +101,14 @@
     {
         "id": "37160",
         "slug": "HitsMusicTv?t=info"
+    },
+    {
+        "id": "50179",
+        "slug": "b-kerimoff-Mugam-dunyamiz"
     }
 ]
+```
+
+Əgər istəyirsənsə, mən bütün `by-kerimoff` seriyasını **sıralı və düzgün formatda** da düzəldə bilərəm ki, qarışıq görünməsin.
+
+Bunu edim?
