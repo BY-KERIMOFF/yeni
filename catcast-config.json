@@ -130,5 +130,25 @@
     {
         "id": "50818",
         "slug": "premium_tv"
+    },
+    {
+        "id": "50625",
+        "slug": "niloya-tv"
+    },
+    {
+        "id": "50561",
+        "slug": "kostebekler"
+    },
+    {
+        "id": "50551",
+        "slug": "coillou"
+    },
+    {
+        "id": "50549",
+        "slug": "pepe"
+    },
+    {
+        "id": "50547",
+        "slug": "scobydoo"
     }
 ]
