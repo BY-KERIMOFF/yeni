@@ -48,20 +48,12 @@
         "slug": "tomandjerry"
     },
     {
-        "id": "50079",
-        "slug": "iplay-muzik"
-    },
-    {
         "id": "48695",
         "slug": "ksunal"
     },
     {
         "id": "40761",
         "slug": "relax-tvhd"
-    },
-    {
-        "id": "50078",
-        "slug": "iplay-sinema"
     },
     {
         "id": "50166",
@@ -208,10 +200,6 @@
         "slug": "playercinema-aze_dublyaj-1"
     },
     {
-        "id": "50637",
-        "slug": "playerfilm-vetenolu"
-    },
-    {
         "id": "50538",
         "slug": "playertoy-mahnlar"
     },
@@ -250,5 +238,9 @@
     {
         "id": "50392",
         "slug": "playercinema-hindfilmleri"
+    },
+    {
+        "id": "50908",
+        "slug": "by-kerimoff-bu-seherde"
     }
 ]
