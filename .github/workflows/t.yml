@@ -36,4 +36,4 @@ jobs:
         git config --local user.name "github-actions[bot]"
         git add catcast/
         git add -u catcast/
-        git diff --quiet && git diff --staged --quiet || (git commit -m "Update Catcast streams [$(date +'%Y-%m-%d %H:%M:%S')]" && git push)
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update Catcast streams [$(date +'%Y-%m-%d %H:%M:%S')]" && git push) 
