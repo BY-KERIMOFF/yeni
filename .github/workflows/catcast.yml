@@ -2,12 +2,12 @@ name: Update Catcast Streams
 
 on:
   schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
+    - cron: '0 */6 * * *'  # Run every 6 hours
+  workflow_dispatch:  # Allow manual trigger
 
 concurrency:
   group: catcast-update
-  cancel-in-progress: false
+  cancel-in-progress: false  # Wait for previous run to complete
 
 jobs:
   update-streams:
