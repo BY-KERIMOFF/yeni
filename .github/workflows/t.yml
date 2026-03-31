@@ -16,11 +16,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Fetch all history for proper git operations
-    
-    - name: Pull latest changes
-      run: git pull origin ${{ github.ref_name }}
     
     - name: Set up Python
       uses: actions/setup-python@v5
@@ -33,28 +28,12 @@ jobs:
         pip install requests
     
     - name: Run update script
-      id: update
       run: python catcast.py
-      continue-on-error: false  # Stop if script fails
-    
-    - name: Check for changes
-      id: check_changes
-      run: |
-        git add catcast/
-        git add -u catcast/
-        if git diff --quiet --staged; then
-          echo "no_changes=true" >> $GITHUB_OUTPUT
-          echo "No changes to commit"
-        else
-          echo "no_changes=false" >> $GITHUB_OUTPUT
-          echo "Changes detected"
-        fi
     
     - name: Commit and push changes
-      if: steps.check_changes.outputs.no_changes == 'false'
       run: |
         git config --local user.email "github-actions[bot]@users.noreply.github.com"
         git config --local user.name "github-actions[bot]"
-        git commit -m "Update Catcast streams [$(date +'%Y-%m-%d %H:%M:%S')]"
-        git pull --rebase origin ${{ github.ref_name }}  # Pull again before push to avoid conflicts
-        git push
+        git add catcast/
+        git add -u catcast/
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update Catcast streams [$(date +'%Y-%m-%d %H:%M:%S')]" && git push)
