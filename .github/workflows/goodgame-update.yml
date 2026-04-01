@@ -2,12 +2,12 @@ name: GoodGame Axınlarını Yenilə
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Hər 5 dəqiqədən bir işlə
-  workflow_dispatch:  # Əllə işə salmaq üçün
+    - cron: '*/5 * * * *'  # Hər 5 dəqiqədən bir
+  workflow_dispatch:  # Əllə işə salmaq
 
 concurrency:
   group: goodgame-update
-  cancel-in-progress: false  # Əvvəlki iş bitənə qədər gözlə
+  cancel-in-progress: false
 
 jobs:
   update-streams:
@@ -47,6 +47,8 @@ jobs:
     
     - name: Yeniləmə skriptini işlə
       run: python goodgame.py
+      env:
+        GITHUB_ACTIONS: true
     
     - name: Dəyişiklikləri yadda saxla və göndər
       run: |
