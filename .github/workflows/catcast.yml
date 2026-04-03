@@ -2,7 +2,7 @@ name: Catcast Axınlarını Yenilə
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Hər 5 dəqiqədən bir işlə
+    - cron: '0 */2 * * *'  # Hər 2 saatdan bir işlə (0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22)
   workflow_dispatch:  # Əllə işə salmaq üçün
 
 concurrency:
