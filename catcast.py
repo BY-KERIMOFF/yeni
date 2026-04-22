@@ -4,127 +4,94 @@ import requests
 from pathlib import Path
 
 def load_config(config_file="catcast-config.json"):
-    """Load configuration from JSON file."""
     with open(config_file, 'r', encoding='utf-8') as f:
         return json.load(f)
 
-def get_current_program(channel_id):
-    """Send POST request to get current program information."""
+def get_current_program(channel_id, token=None):
     url = f"https://api.catcast.tv/api/channels/{channel_id}/getcurrentprogram"
     
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Accept": "application/json, text/plain, */*",
+        "Accept-Language": "tr,en-US;q=0.9,en;q=0.8",
+        "Referer": "https://catcast.tv/",
+        "Origin": "https://catcast.tv",
+        "Content-Type": "application/json"
+    }
+    
+    # Token varsa əlavə et
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    
     try:
-        response = requests.post(url, timeout=60)
-        response.raise_for_status()
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching data for channel {channel_id}: {e}")
+        response = requests.post(url, headers=headers, timeout=30)
+        print(f"Status: {response.status_code}")
+        if response.status_code == 200:
+            return response.json()
+        else:
+            print(f"Xəta {response.status_code}: {response.text}")
+            return None
+    except Exception as e:
+        print(f"Bağlantı xətası: {e}")
         return None
 
 def create_m3u8_file(slug, stream_url, output_dir="catcast"):
-    """Create M3U8 playlist file."""
-    # Create output directory if it doesn't exist
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
-    # Create M3U8 content
+    output_file = os.path.join(output_dir, f"{slug}.m3u8")
+    
+    # Düzgün M3U8 formatı (canlı yayım üçün)
     m3u8_content = f"""#EXTM3U
 #EXT-X-VERSION:3
-#EXT-X-STREAM-INF:BANDWIDTH=2000000
+#EXT-X-TARGETDURATION:10
+#EXT-X-MEDIA-SEQUENCE:0
+#EXTINF:10.0,
 {stream_url}
 """
     
-    # Write to file
-    output_file = os.path.join(output_dir, f"{slug}.m3u8")
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(m3u8_content)
     
-    print(f"✓ Created M3U8 file: {output_file}")
+    print(f"✓ Yaradıldı: {output_file}")
     return output_file
 
 def delete_m3u8_file(slug, output_dir="catcast"):
-    """Delete M3U8 playlist file if it exists."""
     output_file = os.path.join(output_dir, f"{slug}.m3u8")
-    
     if os.path.exists(output_file):
-        try:
-            os.remove(output_file)
-            print(f"✗ Deleted M3U8 file: {output_file}")
-            return True
-        except Exception as e:
-            print(f"Error deleting file {output_file}: {e}")
-            return False
-    else:
-        print(f"✗ File not found (already deleted or never created): {output_file}")
-        return False
+        os.remove(output_file)
+        print(f"✗ Silindi: {output_file}")
 
 def main():
-    """Main function to process all channels."""
-    # Load configuration
-    try:
-        config = load_config()
-    except FileNotFoundError:
-        print("Error: catcast-config.json not found")
-        return
-    except json.JSONDecodeError:
-        print("Error: Invalid JSON in catcast-config.json")
-        return
+    config = load_config()
     
-    successful_channels = []
-    failed_channels = []
+    # Token əgər config-də varsa
+    token = config.get("token") if isinstance(config, dict) else None
     
-    # Process each channel
-    for channel in config:
+    # Əgər config array-dırsa
+    if isinstance(config, list):
+        channels = config
+    else:
+        channels = config.get("channels", [])
+        token = config.get("token", None)
+    
+    for channel in channels:
         channel_id = channel.get("id")
         slug = channel.get("slug")
         
-        if not channel_id or not slug:
-            print(f"Skipping invalid channel entry: {channel}")
-            continue
+        print(f"\n📺 {slug} (ID: {channel_id})")
         
-        print(f"\nProcessing channel: {slug} (ID: {channel_id})")
+        data = get_current_program(channel_id, token)
         
-        # Get current program data
-        response_data = get_current_program(channel_id)
-        
-        if not response_data:
-            print(f"Failed to get data for channel {channel_id}")
-            delete_m3u8_file(slug)
-            failed_channels.append(slug)
-            continue
-        
-        # Extract full_mobile_url
-        if response_data.get("status") == 1 and "data" in response_data:
-            data = response_data["data"]
-            full_mobile_url = data.get("full_mobile_url")
-            
-            if full_mobile_url:
-                # Create M3U8 file
-                create_m3u8_file(slug, full_mobile_url)
-                successful_channels.append(slug)
-                print(f"Successfully processed {slug}")
+        if data and data.get("status") == 1:
+            stream_url = data.get("data", {}).get("full_mobile_url")
+            if stream_url:
+                create_m3u8_file(slug, stream_url)
             else:
-                print(f"No full_mobile_url found for channel {channel_id}")
+                print("❌ Stream URL tapılmadı")
                 delete_m3u8_file(slug)
-                failed_channels.append(slug)
         else:
-            print(f"Invalid response status for channel {channel_id}")
+            print("❌ API-dən düzgün cavab gəlmədi")
             delete_m3u8_file(slug)
-            failed_channels.append(slug)
-    
-    # Summary
-    print("\n" + "="*50)
-    print("Processing Summary:")
-    print("="*50)
-    print(f"✓ Successful: {len(successful_channels)} channels")
-    if successful_channels:
-        for slug in successful_channels:
-            print(f"  - {slug}")
-    
-    print(f"\n✗ Failed: {len(failed_channels)} channels")
-    if failed_channels:
-        for slug in failed_channels:
-            print(f"  - {slug}")
-    
-    print("\nProcessing complete!")
 
 if __name__ == "__main__":
     main()
