@@ -1,7 +1,0 @@
-#EXTM3U
-#EXTVLCOPT:http-referer=https://catcast.tv/
-#EXT-X-VERSION:3
-#EXT-X-TARGETDURATION:10
-#EXT-X-MEDIA-SEQUENCE:0
-#EXTINF:10.0,
-https://v2.catcast.tv/content/50544/index.m3u8?token=0aa6db6361ac7903f4665c3819b7b7bd
