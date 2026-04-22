@@ -25,7 +25,25 @@ def create_m3u8_file(slug, stream_url, output_dir="catcast"):
     # Create output directory if it doesn't exist
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
-    # Create M3U8 content
+    # ⭐ STREAM-URL-DƏN TOKEN-İ ÇIXAR VƏ V2 FORMATINA ÇEVİR ⭐
+    # Token-i tap
+    token = None
+    if "token=" in stream_url:
+        token_part = stream_url.split("token=")[1]
+        token = token_part.split("&")[0]
+    
+    # Əgər token varsa, V2 URL yarat
+    if token and "channel_id" in stream_url:
+        # channel_id-ni tap
+        channel_id = None
+        if "channel_id=" in stream_url:
+            channel_part = stream_url.split("channel_id=")[1]
+            channel_id = channel_part.split("&")[0]
+        
+        if channel_id:
+            stream_url = f"https://v2.catcast.tv/content/{channel_id}/index.m3u8?token={token}"
+    
+    # Sizin istədiyiniz formatda M3U8 yarat
     m3u8_content = f"""#EXTM3U
 #EXT-X-VERSION:3
 #EXT-X-STREAM-INF:BANDWIDTH=2000000
@@ -97,7 +115,7 @@ def main():
             full_mobile_url = data.get("full_mobile_url")
             
             if full_mobile_url:
-                # Create M3U8 file
+                # Create M3U8 file (artıq V2 formatına çevirəcək)
                 create_m3u8_file(slug, full_mobile_url)
                 successful_channels.append(slug)
                 print(f"Successfully processed {slug}")
