@@ -1,15 +1,7 @@
 [
     {
-        "id": "50312",
-        "slug": "elamusic"
-    },
-    {
         "id": "50250",
         "slug": "vetendasa"
-    },
-    {
-        "id": "49905",
-        "slug": "abantv"
     },
     {
         "id": "39199",
@@ -37,15 +29,11 @@
     },
     {
         "id": "48110",
-        "slug": "megatvaz"
+        "slug": "kanal65-music"
     },
     {
         "id": "48694",
         "slug": "now-music"
-    },
-    {
-        "id": "48076",
-        "slug": "rihatmusic"
     },
     {
         "id": "48591",
@@ -56,20 +44,12 @@
         "slug": "tomandjerry"
     },
     {
-        "id": "50079",
-        "slug": "iplay-muzik"
-    },
-    {
         "id": "48695",
         "slug": "ksunal"
     },
     {
         "id": "40761",
         "slug": "relax-tvhd"
-    },
-    {
-        "id": "50078",
-        "slug": "iplay-sinema"
     },
     {
         "id": "50166",
@@ -96,16 +76,12 @@
         "slug": "by_kerimoff_solo_konsert"
     },
     {
-        "id": "43417",
-        "slug": "horrorchannel"
-    },
-    {
         "id": "46233",
-        "slug": "lv-%20Nightgirl?t=info"
+        "slug": "lv-Nightgirl"
     },
     {
         "id": "37160",
-        "slug": "HitsMusicTv?t=info"
+        "slug": "HitsMusicTv"
     },
     {
         "id": "50179",
@@ -116,7 +92,147 @@
         "slug": "by-kerimoff-keloglan"
     },
     {
-        "name": "Музыка Кино International",
-        "id": 37739
+        "id": "50751",
+        "slug": "underworld"
+    },
+    {
+        "id": "50202",
+        "slug": "bayzan-music"
+    },
+    {
+        "id": "50265",
+        "slug": "ulduz-tv"
+    },
+    {
+        "id": "50514",
+        "slug": "bayzan-hits"
+    },
+    {
+        "id": "50818",
+        "slug": "premium_tv"
+    },
+    {
+        "id": "50625",
+        "slug": "niloya-tv"
+    },
+    {
+        "id": "50561",
+        "slug": "kostebekler"
+    },
+    {
+        "id": "50551",
+        "slug": "coillou"
+    },
+    {
+        "id": "50549",
+        "slug": "pepe"
+    },
+    {
+        "id": "50547",
+        "slug": "scobydoo"
+    },
+    {
+        "id": "50735",
+        "slug": "fanatikmaxyesilcam"
+    },
+    {
+        "id": "50717",
+        "slug": "fanatikmaxkorku"
+    },
+    {
+        "id": "50831",
+        "slug": "yesilcam-filmleri"
+    },
+    {
+        "id": "50634",
+        "slug": "balacan-tv-diginet"
+    },
+    {
+        "id": "50741",
+        "slug": "t-tv"
+    },
+    {
+        "id": "50486",
+        "slug": "yansimaslowsarkilar"
+    },
+    {
+        "id": "50851",
+        "slug": "by-kerimoff-slow-musiqiler"
+    },
+    {
+        "id": "50852",
+        "slug": "by-kerimoff-azeri-retro-filmle"
+    },
+    {
+        "id": "50853",
+        "slug": "by-kerimoff-retro-filmler-2"
+    },
+    {
+        "id": "50854",
+        "slug": "by-kerimoff-bozbash-production"
+    },
+    {
+        "id": "50901",
+        "slug": "by-kerimof-hind-filmleri"
+    },
+    {
+        "id": "50903",
+        "slug": "by-kerimoff-belgesel"
+    },
+    {
+        "id": "50907",
+        "slug": "by-kerimoff-kend-heyati"
+    },
+    {
+        "id": "50908",
+        "slug": "by-kerimoff-bu-seherde"
+    },
+    {
+        "id": "50912",
+        "slug": "by-kerimoff-bu-seherde2"
+    },
+    {
+        "id": "50919",
+        "slug": "by-kerimoff-animasyon"
+    },
+    {
+        "id": "50920",
+        "slug": "by-kerimoff-horror"
+    },
+    {
+        "id": "50921",
+        "slug": "by-kerimoff-meyxana-tv"
+    },
+    {
+        "id": "50950",
+        "slug": "by-kerimoff-gaydasiz-doyusler"
+    },
+    {
+        "id": "50962",
+        "slug": "by-kerimoff-hind-klipleri"
+    },
+    {
+        "id": "50313",
+        "slug": "m-724"
+    },
+    {
+        "id": "50572",
+        "slug": "kanal65-klasik-music"
+    },
+    {
+        "id": "39349",
+        "slug": "kanal65-mrbean"
+    },
+    {
+        "id": "39903",
+        "slug": "kanal65-hits"
+    },
+    {
+        "id": "50546",
+        "slug": "ben10"
+    },
+    {
+        "id": "50544",
+        "slug": "mrbean"
     }
 ]
