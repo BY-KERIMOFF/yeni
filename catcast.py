@@ -12,8 +12,15 @@ def get_current_program(channel_id):
     """Send POST request to get current program information."""
     url = f"https://api.catcast.tv/api/channels/{channel_id}/getcurrentprogram"
     
+    # Referer başlığı əlavə edildi
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+        "Referer": "https://catcast.tv/",
+        "Origin": "https://catcast.tv"
+    }
+    
     try:
-        response = requests.post(url, timeout=60)
+        response = requests.post(url, headers=headers, timeout=60)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException as e:
@@ -21,33 +28,33 @@ def get_current_program(channel_id):
         return None
 
 def create_m3u8_file(slug, stream_url, output_dir="catcast"):
-    """Create M3U8 playlist file."""
+    """Create M3U8 playlist file - V2 formatında."""
     # Create output directory if it doesn't exist
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
-    # ⭐ STREAM-URL-DƏN TOKEN-İ ÇIXAR VƏ V2 FORMATINA ÇEVİR ⭐
-    # Token-i tap
+    # Token-i və channel_id-ni çıxar
     token = None
+    channel_id = None
+    
     if "token=" in stream_url:
         token_part = stream_url.split("token=")[1]
         token = token_part.split("&")[0]
     
-    # Əgər token varsa, V2 URL yarat
-    if token and "channel_id" in stream_url:
-        # channel_id-ni tap
-        channel_id = None
-        if "channel_id=" in stream_url:
-            channel_part = stream_url.split("channel_id=")[1]
-            channel_id = channel_part.split("&")[0]
-        
-        if channel_id:
-            stream_url = f"https://v2.catcast.tv/content/{channel_id}/index.m3u8?token={token}"
+    if "channel_id=" in stream_url:
+        channel_part = stream_url.split("channel_id=")[1]
+        channel_id = channel_part.split("&")[0]
     
-    # Sizin istədiyiniz formatda M3U8 yarat
+    # V2 URL yarat (sizin istədiyiniz format)
+    if token and channel_id:
+        final_url = f"https://v2.catcast.tv/content/{channel_id}/index.m3u8?token={token}"
+    else:
+        final_url = stream_url  # fallback
+    
+    # M3U8 yarat - SİZİN İSTƏDİYİNİZ FORMAT
     m3u8_content = f"""#EXTM3U
 #EXT-X-VERSION:3
 #EXT-X-STREAM-INF:BANDWIDTH=2000000
-{stream_url}
+{final_url}
 """
     
     # Write to file
@@ -56,6 +63,7 @@ def create_m3u8_file(slug, stream_url, output_dir="catcast"):
         f.write(m3u8_content)
     
     print(f"✓ Created M3U8 file: {output_file}")
+    print(f"  └─ Format: V2 (https://v2.catcast.tv/content/...)")
     return output_file
 
 def delete_m3u8_file(slug, output_dir="catcast"):
@@ -115,7 +123,7 @@ def main():
             full_mobile_url = data.get("full_mobile_url")
             
             if full_mobile_url:
-                # Create M3U8 file (artıq V2 formatına çevirəcək)
+                # Create M3U8 file (avtomatik V2 formatına çevirir)
                 create_m3u8_file(slug, full_mobile_url)
                 successful_channels.append(slug)
                 print(f"Successfully processed {slug}")
