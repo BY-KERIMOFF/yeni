@@ -1,112 +1,130 @@
 import json
 import os
 import requests
-import time
 from pathlib import Path
-from datetime import datetime
 
 def load_config(config_file="catcast-config.json"):
+    """Load configuration from JSON file."""
     with open(config_file, 'r', encoding='utf-8') as f:
         return json.load(f)
 
 def get_current_program(channel_id):
+    """Send POST request to get current program information."""
     url = f"https://api.catcast.tv/api/channels/{channel_id}/getcurrentprogram"
-    headers = {
-        "User-Agent": "Mozilla/5.0",
-        "Referer": "https://catcast.tv/",
-        "Origin": "https://catcast.tv"
-    }
+    
     try:
-        response = requests.post(url, headers=headers, timeout=30)
+        response = requests.post(url, timeout=60)
         response.raise_for_status()
         return response.json()
-    except Exception as e:
-        print(f"❌ Error: {e}")
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching data for channel {channel_id}: {e}")
         return None
 
-def extract_token(stream_url):
-    if not stream_url:
-        return None
-    if "token=" in stream_url:
-        token = stream_url.split("token=")[1].split("&")[0]
-        return token
-    return None
-
-def create_m3u8_file(slug, channel_id, token, output_dir="catcast"):
+def create_m3u8_file(slug, stream_url, output_dir="catcast"):
+    """Create M3U8 playlist file."""
+    # Create output directory if it doesn't exist
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
-    # ⭐ SİZİN TAPDIĞINIZ İŞLƏYƏN FORMAT ⭐
-    v2_url = f"https://v2.catcast.tv/content/{channel_id}/index.m3u8?token={token}"
-    
+    # Create M3U8 content
     m3u8_content = f"""#EXTM3U
 #EXT-X-VERSION:3
 #EXT-X-STREAM-INF:BANDWIDTH=2000000
-{v2_url}
+{stream_url}
 """
     
+    # Write to file
     output_file = os.path.join(output_dir, f"{slug}.m3u8")
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write(m3u8_content)
     
-    print(f"✓ {output_file}")
+    print(f"✓ Created M3U8 file: {output_file}")
     return output_file
 
-def update_channel(channel):
-    channel_id = channel.get("id")
-    slug = channel.get("slug")
+def delete_m3u8_file(slug, output_dir="catcast"):
+    """Delete M3U8 playlist file if it exists."""
+    output_file = os.path.join(output_dir, f"{slug}.m3u8")
     
-    if not channel_id or not slug:
+    if os.path.exists(output_file):
+        try:
+            os.remove(output_file)
+            print(f"✗ Deleted M3U8 file: {output_file}")
+            return True
+        except Exception as e:
+            print(f"Error deleting file {output_file}: {e}")
+            return False
+    else:
+        print(f"✗ File not found (already deleted or never created): {output_file}")
         return False
-    
-    print(f"📺 {slug} - {datetime.now().strftime('%H:%M:%S')}")
-    
-    data = get_current_program(channel_id)
-    if not data or data.get("status") != 1:
-        print(f"  ❌ Failed")
-        return False
-    
-    stream_url = data.get("data", {}).get("full_mobile_url") or data.get("data", {}).get("full_hls_url")
-    if not stream_url:
-        print(f"  ❌ No stream URL")
-        return False
-    
-    token = extract_token(stream_url)
-    if not token:
-        print(f"  ❌ No token")
-        return False
-    
-    create_m3u8_file(slug, channel_id, token)
-    print(f"  ✅ Updated")
-    return True
 
 def main():
+    """Main function to process all channels."""
+    # Load configuration
     try:
         config = load_config()
     except FileNotFoundError:
-        print("❌ catcast-config.json tapılmadı!")
-        example = [{"id": 50544, "slug": "mrbean"}]
-        with open("catcast-config.json", "w") as f:
-            json.dump(example, f, indent=2)
-        print("✓ Nümunə fayl yaradıldı. Zəhmət olmasa redaktə edib təkrar işə salın.")
+        print("Error: catcast-config.json not found")
+        return
+    except json.JSONDecodeError:
+        print("Error: Invalid JSON in catcast-config.json")
         return
     
-    channels = config if isinstance(config, list) else config.get("channels", [])
+    successful_channels = []
+    failed_channels = []
     
+    # Process each channel
+    for channel in config:
+        channel_id = channel.get("id")
+        slug = channel.get("slug")
+        
+        if not channel_id or not slug:
+            print(f"Skipping invalid channel entry: {channel}")
+            continue
+        
+        print(f"\nProcessing channel: {slug} (ID: {channel_id})")
+        
+        # Get current program data
+        response_data = get_current_program(channel_id)
+        
+        if not response_data:
+            print(f"Failed to get data for channel {channel_id}")
+            delete_m3u8_file(slug)
+            failed_channels.append(slug)
+            continue
+        
+        # Extract full_mobile_url
+        if response_data.get("status") == 1 and "data" in response_data:
+            data = response_data["data"]
+            full_mobile_url = data.get("full_mobile_url")
+            
+            if full_mobile_url:
+                # Create M3U8 file
+                create_m3u8_file(slug, full_mobile_url)
+                successful_channels.append(slug)
+                print(f"Successfully processed {slug}")
+            else:
+                print(f"No full_mobile_url found for channel {channel_id}")
+                delete_m3u8_file(slug)
+                failed_channels.append(slug)
+        else:
+            print(f"Invalid response status for channel {channel_id}")
+            delete_m3u8_file(slug)
+            failed_channels.append(slug)
+    
+    # Summary
+    print("\n" + "="*50)
+    print("Processing Summary:")
     print("="*50)
-    print("🚀 Catcast Auto-Updater")
-    print(f"📡 {len(channels)} kanal")
-    print("⏱️ Hər 5 dəqiqədə yenilənir")
-    print("Press Ctrl+C to stop\n")
+    print(f"✓ Successful: {len(successful_channels)} channels")
+    if successful_channels:
+        for slug in successful_channels:
+            print(f"  - {slug}")
     
-    while True:
-        print(f"\n🕐 {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-        success = 0
-        for ch in channels:
-            if update_channel(ch):
-                success += 1
-            time.sleep(1)
-        print(f"📊 {success}/{len(channels)} yeniləndi")
-        time.sleep(300)  # 5 dəqiqə
+    print(f"\n✗ Failed: {len(failed_channels)} channels")
+    if failed_channels:
+        for slug in failed_channels:
+            print(f"  - {slug}")
+    
+    print("\nProcessing complete!")
 
 if __name__ == "__main__":
     main()
