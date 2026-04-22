@@ -1,4 +1,5 @@
 #EXTM3U
+#EXTVLCOPT:http-referer=https://catcast.tv/
 #EXT-X-VERSION:3
 #EXT-X-TARGETDURATION:10
 #EXT-X-MEDIA-SEQUENCE:0
